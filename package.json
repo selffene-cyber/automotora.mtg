@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "rimraf .next && next build",
+    "build": "rimraf .next && next build && rimraf .next/cache",
     "start": "next start",
     "lint": "next lint",
     "build:cloudflare": "next build",
