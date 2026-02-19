@@ -1,0 +1,5 @@
+# API routes - no redirect
+/api/*  /api/:splat  200
+
+# Admin routes
+/admin/*  /admin/:splat  200

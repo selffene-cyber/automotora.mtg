@@ -1,0 +1,290 @@
+# RULES – MTG SpA.txt
+
+RULE - Accesos a Cloudflare
+
+- Cloudflare: 
+- correo: gerencia@mastg.cl
+- contraseña: mastechgroup2025#
+
+- BD D1: 
+
+"d1_databases": [{
+    "binding": "DB",
+    "database_name": "mtg-automotora",
+    "database_id": "9868463e-4dc9-45ad-bfe7-956e063c0b27"
+ }]
+
+RULE – Control de Versiones (GitHub)
+Repositorio Oficial
+
+    Plataforma: GitHub
+
+    Repo principal: https://github.com/selffene-cyber/automotora.mtg.git
+
+    Rama protegida: main
+
+    Rama de desarrollo: develop
+
+    User y Pass Github
+    usuario: selffene@gmail.com
+    contraseña: selfene1994
+
+Estrategia de Branching
+
+    main → producción (Cloudflare Pages apunta aquí)
+
+    develop → integración
+
+    feature/<nombre-modulo> → nuevas funcionalidades
+
+    fix/<bug> → correcciones
+
+    hotfix/<urgente> → parches críticos en producción
+
+     Nunca desarrollar directo en main
+     Nunca hacer push sin pasar por PR
+
+Pull Requests (obligatorio)
+
+    Cada PR debe:
+
+    Describir qué módulo afecta
+
+    Indicar si requiere migración D1
+
+    Indicar si afecta seguridad
+
+    Incluir checklist:
+
+    [ ] Migración aplicada
+    [ ] Funciona en local
+    [ ] Sin errores en consola
+    [ ] Estados correctamente validados
+    [ ] Documentación actualizada
+
+RULE – Migraciones D1 + GitHub 
+
+("d1_databases": [{
+    "binding": "DB",
+    "database_name": "mtg-automotora",
+    "database_id": "9868463e-4dc9-45ad-bfe7-956e063c0b27"
+ }])
+
+    Cada cambio en DB debe tener archivo de migración versionado:
+
+    /db/migrations/0001_init.sql
+    /db/migrations/0002_add_auctions.sql
+
+
+    Nunca modificar tablas manualmente en producción
+
+    Migraciones deben ejecutarse vía Wrangler
+
+RULE – Versionado Semántico
+
+    v0.x.x → MVP
+
+    v1.0.0 → Plataforma estable
+
+    major.minor.patch
+
+    major = cambios estructurales
+
+    minor = nuevas funcionalidades
+
+    patch = correcciones
+
+RULE – Seguridad GitHub
+
+    No subir:
+
+    .env
+
+    .dev.vars
+
+    secrets
+
+    Configurar:
+
+    Branch protection en main
+
+    Required PR review
+
+    No force push
+
+RULES – MTG SpA (Cloudflare Pages + D1)
+
+Regla Global del Proyecto
+
+    Stack obligatorio: Next.js (App Router) + Cloudflare Pages + D1
+
+    Base de datos única: D1 (no mezclar con otros engines)
+
+    Acceso a DB solo desde server actions / API routes
+
+    No lógica de negocio en componentes UI
+
+    Cada funcionalidad debe estar completamente desacoplada
+
+    Cada módulo tiene su propio archivo en /docs/modules/
+
+RULE – Catálogo de Vehículos
+
+    Tabla D1: vehicles
+
+    Estados permitidos:
+
+    draft
+
+    published
+
+    reserved
+
+    sold
+
+    hidden
+
+    Filtros deben ejecutarse en backend (no solo en frontend)
+
+    SEO obligatorio: slug único por vehículo
+
+    No mostrar vehículos draft o hidden en público
+
+    Todas las imágenes deben almacenarse en Cloudflare R2 (no base64 en DB)
+
+RULE – Reserva con Abono
+
+    Tabla: reservations
+
+    Estados:
+
+    pending_payment
+
+    paid
+
+    cancelled
+
+    expired
+
+    Confirmación de pago SOLO vía webhook
+
+    Cambiar estado de vehículo a reserved solo después de confirmación real
+
+    Reservas deben tener expiración automática (ej: 48 horas)
+
+RULE – Consignación Online
+
+    Tabla: consignments
+
+    Estados:
+
+    received
+
+    under_review
+
+    approved
+
+    rejected
+
+    published
+
+    No crear vehículo automáticamente sin aprobación manual
+
+    Registrar auditoría: fecha + usuario que aprueba
+
+RULE – Subastas / Remates
+
+    Tabla: auctions
+
+    Tabla: bids
+
+    Reglas:
+
+    Solo vehículos con estado published
+
+    Subasta tiene start_time y end_time
+
+    Pujas deben ser mayores al último monto + incremento mínimo
+
+    No permitir pujas después del cierre
+
+    Cierre automático cambia vehículo a reserved_pending_payment
+
+RULE – Rifas (Condicional Legal)
+
+    Tabla: raffles
+
+    Tabla: raffle_tickets
+
+    Cada ticket debe tener ID único verificable
+
+    Sistema debe permitir exportar listado completo para auditoría
+
+    No activar módulo sin validación legal previa
+
+RULE – Leads y CRM Básico
+
+    Tabla: leads
+
+    Cada lead debe estar vinculado a un vehicle_id
+
+    Estados:
+
+    new
+
+    contacted
+
+    scheduled
+
+    closed_won
+
+    closed_lost
+
+    No eliminar leads (solo marcar como archivado)
+
+    RULE – Seguridad
+
+    Roles:
+
+    admin
+
+    sales
+
+    ops
+
+    No permitir operaciones críticas sin sesión autenticada
+
+    Registrar cambios críticos en tabla audit_logs
+
+RULE – Arquitectura D1
+
+    Todas las migraciones deben estar versionadas
+
+    Nunca modificar tabla en producción sin migración formal
+
+    Queries deben estar encapsuladas en /lib/db/
+
+    No usar SQL inline en componentes
+
+MODES recomendados
+    Architect Mode
+
+    Diseña schema D1
+
+    Define relaciones y constraints
+
+    No implementa UI
+
+    Builder Mode
+
+    Implementa features siguiendo RULES
+
+    No cambia arquitectura sin aprobación
+
+    Reviewer Mode
+
+    Valida seguridad
+
+    Revisa duplicaciones
+
+    Asegura que se cumpla cada RULE
