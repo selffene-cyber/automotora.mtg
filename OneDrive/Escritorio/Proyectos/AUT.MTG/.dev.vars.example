@@ -1,0 +1,10 @@
+# Auth
+AUTH_SECRET=your-secret-key-here
+
+# Database (local D1)
+DB=local
+
+# Optional: Payment gateway keys for testing
+# MERCADOPAGO_ACCESS_TOKEN=
+# FLOW_API_KEY=
+# FLOW_SECRET_KEY=

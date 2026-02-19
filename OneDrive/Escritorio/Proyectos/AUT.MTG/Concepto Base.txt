@@ -1,0 +1,219 @@
+0) Objetivo del sistema (MVP primero)
+
+MVP:
+
+Catálogo de autos usados (fichas completas + fotos)
+
+Filtros (precio, marca, modelo, año, km, región)
+
+“Carrito” tipo reserva (no compra total): abono/garantía + agendar visita
+
+Panel admin para subir/editar autos fácil (sin programar)
+
+Leads + tracking (WhatsApp/correo incluyendo N8N y Gemini para Atención Personalizada y respuesta rápida de preguntas [esto lo haré manual, pero debe quedar preparado el entorno], embudo básico)
+
+Documentos: checklist, estado mecánico, PDF simple “Ficha MTG”
+
+Fase 2:
+
+Consignación online (dueño sube info → MTG aprueba → se publica)
+
+Subastas/remates (pujas, tiempos, reglas, depósitos)
+
+Integración con financiamiento/seguro (si aplica)
+
+Fase 3 (condicional legal):
+
+Rifas con cumplimiento y trazabilidad (si corresponde).
+
+1) Arquitectura recomendada (simple, escalable, barata)
+Opción A (rápida y moderna)
+
+Frontend: Next.js (web rápida, SEO bueno)
+
+Backend: D1 Cloudflare y Bucket en Cloudflare
+
+Admin: Panel propio simple o herramienta tipo Directus/Retool (si quieres ir ultra rápido)
+
+Pagos: Webpay/Flow/MercadoPago para “abono de reserva” (prepara entorno, pero debemos luego hacer esto de forma única)
+
+Hosting: Cloudflare Pages
+
+
+Mi recomendación para tu enfoque (consignación + remate + carrito):
+
+2) Módulos del sistema (como mapa funcional)
+A) Sitio público (mtg.cl)
+
+Home: “Autos disponibles”, “Vender tu auto”, “Consignación”, “Remates”, “Cómo funciona”
+
+Catálogo (grid) + filtros + orden (precio/reciente)
+
+Ficha de vehículo:
+
+fotos, VIN/chasis (si corresponde), km, año, patente (opcional), estado, historial, ubicación
+
+“Reservar” (abono) / “Hablar por WhatsApp”
+
+Descargar “Ficha MTG” (PDF)
+
+B) Carrito / Reserva
+
+No lo vendas como e-commerce total altiro: reserva con abono
+
+Flujo:
+
+elegir auto → 2) completar datos → 3) pagar abono → 4) agenda visita / videollamada
+
+Estado: reservable / reservado / vendido / en evaluación / en consignación
+
+C) Panel Admin (autogestión)
+
+CRUD autos (crear/editar/publicar)
+
+Carga masiva de fotos (drag & drop)
+
+Gestión de leads (pipeline simple)
+
+Documentos por auto: contrato, checklist, revisión, observaciones
+
+Roles: Admin / Vendedor / Operaciones
+
+D) Consignación
+
+Form “Quiero vender mi auto” (sube fotos + datos)
+
+Workflow: “Recibido → Validación → Tasación → Aprobado → Publicado”
+
+Trazabilidad: quién aprobó, cuándo, cambios
+
+E) Remates/Subastas
+
+Reglas claras (tiempo, incremento mínimo, depósito)
+
+Pujas con log (anti-fraude básico)
+
+Cierre automático + “ganador” + link de pago/confirmación
+
+F) Rifas (condicional)
+
+Módulo separado, activable por configuración.
+
+Trazabilidad total (tickets, pagos, número, auditoría)
+
+Pero: primero validar encuadre legal/permiso y mecanismo permitido.
+
+3) Datos (modelo mínimo de base de datos)
+
+vehicles (autos)
+
+vehicle_photos
+
+leads (contactos)
+
+reservations (reservas + pagos)
+
+consignments (solicitudes consignación)
+
+auctions + bids (subasta + pujas)
+
+users + roles
+
+documents (PDF/contratos/checklists)
+
+4) Seguridad y confianza (clave en automotora)
+
+Logs de cambios por auto (auditoría)
+
+Validación de publicaciones (evitar “autos fantasmas”)
+
+Marca de agua en fotos (opcional)
+
+Políticas visibles: garantía, devolución de abono, condiciones de remate
+
+Backups automáticos (Supabase lo facilita)
+
+5) Roadmap de implementación (paso a paso)
+- Fundaciones:
+
+Registrar/asegurar mtg.cl + DNS
+
+Definir identidad mínima (logo simple, colores)
+
+Definir flujo MVP: catálogo + ficha + reserva + admin
+
+- Catálogo + Admin:
+
+DB + Storage fotos
+
+Panel admin para subir autos
+
+Front catálogo + filtros
+
+- Ficha + WhatsApp + SEO:
+
+Plantilla ficha auto + URL amigable
+
+Botón WhatsApp con tracking
+
+SEO básico (meta, sitemap)
+
+Reserva con abono
+
+Checkout (Webpay/Flow/MP)
+
+Estados de reserva
+
+Email/WhatsApp confirmación
+
+- Consignación (form + workflow):
+
+Form de consignación
+
+Bandeja de revisión (admin)
+
+- Subasta:
+
+Módulo auctions + bids
+
+Depósito + reglas + cierre
+
+- Optimización:
+
+Analytics (conversiones, fuentes)
+
+Mejoras de performance
+
+Integración con CRM si quieres (o tu propio mini CRM)
+
+6) Operación (proceso tipo “línea de producción”)
+
+Entrada: captación (consignación / compra directa / dato de remate)
+
+Inspección: checklist + fotos + diagnóstico
+
+Estandarización: ficha MTG + precio + margen objetivo
+
+Publicación: catálogo + campañas
+
+Cierre: reserva → visita → venta
+
+Postventa: documentos + seguimiento
+
+Esto lo puedes modelar como un flujo BPMN y después automatizarlo (y ahí MTG se vuelve máquina).
+
+7) KPIs de control (para que no sea “solo web bonita”)
+
+Conversión catálogo → lead (%)
+
+Lead → visita agendada (%)
+
+Visita → reserva (%)
+
+Reserva → venta (%)
+
+Días promedio en inventario
+
+Margen por unidad (CLP) + % margen
+
+CAC por canal (IG, FB, Orgánico, Referidos)

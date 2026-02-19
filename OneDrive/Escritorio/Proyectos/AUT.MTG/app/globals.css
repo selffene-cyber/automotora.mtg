@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* MTG Color Palette */
+    --mtg-electric: 210 100% 50%;      /* #0084FF - CTAs, accents */
+    --mtg-deep: 215 58% 35%;           /* #1A4B8F - Titles, section borders */
+    --mtg-metallic: 200 8% 56%;        /* #8E9499 - Subtitle text, secondary icons */
+    --mtg-carbon: 210 3% 31%;          /* #4A4D50 - Body text */
+    --mtg-ice: 200 15% 92%;            /* #E5E9EC - Page backgrounds */
+
+    /* High-Tech Premium White Theme */
+    --background: 0 0% 100%;            /* White #FFFFFF */
+    --foreground: 210 3% 31%;          /* Carbon #4A4D50 */
+    --card: 0 0% 100%;
+    --card-foreground: 210 3% 31%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 3% 31%;
+    --primary: 215 58% 35%;            /* Deep Blue #1A4B8F */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 200 8% 56%;           /* Metallic Gray #8E9499 */
+    --secondary-foreground: 0 0% 100%;
+    --muted: 200 15% 92%;
+    --muted-foreground: 200 8% 56%;
+    --accent: 210 100% 50%;            /* Electric Blue #0084FF */
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    /* Fine-line art borders - 1px neutral-200 */
+    --border: 210 8% 90%;              /* #E5E5E5 */
+    --input: 210 8% 90%;
+    --ring: 215 58% 35%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 215 25% 15%;
+    --foreground: 200 15% 92%;
+    --card: 215 25% 15%;
+    --card-foreground: 200 15% 92%;
+    --popover: 215 25% 15%;
+    --popover-foreground: 200 15% 92%;
+    --primary: 210 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 215 25% 20%;
+    --secondary-foreground: 200 15% 92%;
+    --muted: 215 25% 20%;
+    --muted-foreground: 200 8% 56%;
+    --accent: 210 100% 50%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 215 25% 25%;
+    --input: 215 25% 25%;
+    --ring: 210 100% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    @apply transition-all duration-200;
+  }
+
+  /* Smooth transitions for interactive elements */
+  button, a, input, select, textarea {
+    @apply transition-all duration-200;
+  }
+
+  /* Fine-line card with subtle hover elevation and blue glow */
+  .card-hover {
+    @apply transition-all duration-200 hover:shadow-md hover:-translate-y-0.5;
+    @apply hover:shadow-mtg-electric/10 hover:border-mtg-electric/30;
+  }
+
+  /* Button interactions */
+  .btn-primary {
+    @apply bg-mtg-electric text-white;
+    @apply hover:bg-mtg-electric/90 active:scale-[0.98];
+    @apply transition-all duration-200;
+  }
+
+  .btn-secondary {
+    @apply bg-mtg-deep text-white;
+    @apply hover:bg-mtg-deep/90 active:scale-[0.98];
+    @apply transition-all duration-200;
+  }
+
+  /* Blue glow effect on hover */
+  .glow-hover {
+    @apply transition-all duration-200;
+  }
+  .glow-hover:hover {
+    box-shadow: 0 0 20px -5px oklch(210 100% 50% / 0.3);
+  }
+}
